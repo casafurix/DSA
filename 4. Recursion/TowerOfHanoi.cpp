@@ -17,7 +17,7 @@ void TOH(int n, char A, char B, char C)
 int main()
 {
     char A, B, C;
-    TOH(2, 'A', 'B', 'C');
+    TOH(3, 'A', 'B', 'C');
 
     return 0;
 }
