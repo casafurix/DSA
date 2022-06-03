@@ -1,113 +1,188 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <fstream>
+
 using namespace std;
-#define ll long long
 
-int main()
+class TrieNode
 {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    int t;
-    cin >> t;
-    while (t--)
+public:
+    char data;
+    TrieNode **children;
+    bool isTerminal;
+
+    TrieNode(char data)
     {
-        int x, y;
-        cin >> x >> y;
-        string ans1 = "";
-        string ans2 = "";
-        if (x % 2 != 0 && y % 2 != 0)
+        this->data = data;
+        children = new TrieNode *[26];
+        for (int i = 0; i < 26; i++)
         {
-            cout << -1;
+            children[i] = NULL;
         }
-        else if (x == 1 || y == 1)
-        {
-            cout << -1;
-        }
-        else
-        {
-            if (((x % 2 != 0) && (y % 2 == 0)))
-            {
+        isTerminal = false;
+    }
+};
 
-                for (int i = 0; i < x + y; i++)
-                {
-                    if (i % 2 == 0)
-                    {
-                        ans1 = ans1 + "a";
-                    }
-                    else
-                    {
-                        ans1 = ans1 + "b";
-                    }
-                }
-                int evencheck = 0;
-                int last = x + y - 1;
-                for (int i = y / 2; i < (y / 2) + x; i++)
-                {
-                    ans2 = ans2 + "a";
-                }
-                while (evencheck < y)
-                {
-                    ans2 = ans2 + "b";
-                    ans2 = "b" + ans2;
-                    evencheck += 2;
-                }
-            }
-            else if (((x % 2 == 0) && (y % 2 != 0)))
-            {
+class Trie
+{
+    TrieNode *root;
 
-                for (int i = 0; i < x + y; i++)
-                {
-                    if (i % 2 == 0)
-                    {
-                        ans1 = ans1 + "b";
-                    }
-                    else
-                    {
-                        ans1 = ans1 + "a";
-                    }
-                }
-                int evencheck = 0;
-                int last = x + y - 1;
-                for (int i = x / 2; i < (x / 2) + y; i++)
-                {
-                    ans2 = ans2 + "b";
-                }
-                while (evencheck < x)
-                {
-                    ans2 = ans2 + "a";
-                    ans2 = "a" + ans2;
-                    evencheck += 2;
-                }
+public:
+    int count;
+
+    Trie()
+    {
+        this->count = 0;
+        root = new TrieNode('\0');
+    }
+
+    bool insertWord(TrieNode *root, string word)
+    {
+        // Base case
+        if (word.size() == 0)
+        {
+            if (!root->isTerminal)
+            {
+                root->isTerminal = true;
+                return true;
             }
             else
             {
-                for (int i = 0; i < y; i++)
+                return false;
+            }
+        }
+
+        // Small Calculation
+        int index = word[0] - 'a';
+        TrieNode *child;
+        if (root->children[index] != NULL)
+        {
+            child = root->children[index];
+        }
+        else
+        {
+            child = new TrieNode(word[0]);
+            root->children[index] = child;
+        }
+
+        // Recursive call
+        return insertWord(child, word.substr(1));
+    }
+
+    // For user
+    void insertWord(string word)
+    {
+        if (insertWord(root, word))
+        {
+            this->count++;
+        }
+    }
+    void complete(TrieNode *root, string word, string output, bool &possible, string &key)
+    {
+        if (word.length() == 0)
+        {
+            if (root->isTerminal)
+            {
+                /// this is first word we found that has key as a prefix
+                if (!possible)
+                    cout << "\nWords containing " << key << " as prefix are:\n";
+                possible = 1;
+                cout << output << endl;
+            }
+            for (int i = 0; i < 26; i++)
+            {
+                if (root->children[i] != NULL)
                 {
-                    ans1 = ans1 + "b";
-                }
-                int even2 = 0;
-                while (even2 < x)
-                {
-                    ans1 = "a" + ans1;
-                    ans1 = ans1 + "a";
-                    even2 += 2;
-                }
-                for (int i = 0; i < x; i++)
-                {
-                    ans2 = ans2 + "a";
-                }
-                int bcount = 0;
-                while (bcount < y)
-                {
-                    ans2 = "b" + ans2;
-                    ans2 = ans2 + "b";
-                    bcount += 2;
+                    string output1 = output;
+                    output1 += root->children[i]->data;
+                    complete(root->children[i], word.substr(), output1, possible, key);
                 }
             }
-
-            cout << ans1 << "\n"
-                 << ans2;
+            return;
         }
-        cout << "\n";
+        int index = word[0] - 'a';
+        if (root->children[index] == NULL)
+            return;
+        else
+            complete(root->children[index], word.substr(1), output + word[0], possible, key);
     }
-    return 0;
+
+    void autoComplete(string &key, bool &possible)
+    {
+        string output = "";
+        complete(root, key, output, possible, key);
+    }
+};
+
+int main()
+{
+    Trie *t = new Trie();
+
+    ifstream fin;
+    string line;
+    fin.open("wordlist.txt");
+
+    while (!fin.eof())
+    {
+
+        getline(fin, line);
+        t->insertWord(line);
+    }
+
+    fin.close();
+    bool i = 1;
+    while (i)
+    {
+        cout << "Enter a word to auto-complete it :\n";
+        string key;
+        cin >> key;
+        bool possible = 0;
+        t->autoComplete(key, possible);
+
+        if (!possible)
+        {
+            cout << "\n\nNo word found with " << key << " as prefix\n";
+            bool u = 1;
+            while (u)
+            {
+                cout << "Do you wish to add " << key << " into the dictionary? \nIf Yes, Press (1) \nIf No, Press(2)\n";
+                int s;
+                cin >> s;
+
+                if (s == 1)
+                {
+                    ofstream fout;
+                    fout.open("wordlist.txt", ios::app);
+                    fout << "\n"
+                         << key;
+                    t->insertWord(key);
+                    fout.close();
+                    cout << key << " added to dictionary successfully.\n";
+                    u = 0;
+                }
+                else if (s == 2)
+                    u = 0;
+                else
+                    cout << "Please Enter a Valid Input! ENTER AGAIN\n";
+            }
+        }
+
+        int x = 1;
+        while (x)
+        {
+            cout << "\nDo You want to auto-complete something else?\nIf Yes: Press (1) \nIf not: Press (2)\n";
+            int ch;
+            cin >> ch;
+
+            if (ch == 1)
+                x = 0;
+            else if (ch == 2)
+            {
+                x = 0;
+                i = 0;
+            }
+            else
+                cout << "Please Enter a Valid Input! ENTER AGAIN \n";
+        }
+    }
 }
