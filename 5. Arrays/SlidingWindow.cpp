@@ -43,9 +43,11 @@ int main()
 
     cout << slidingWindowNaive(arr1, 6, 3) << endl;
     cout << slidingWindowNaive(arr2, 5, 2) << endl;
+    // cout << slidingWindowNaive2(arr2, 2) << endl;
     cout << endl;
     cout << slidingWindowEff(arr1, 6, 3) << endl;
     cout << slidingWindowEff(arr2, 5, 2) << endl;
+    cout << endl;
 
     return 0;
 }
