@@ -32,7 +32,7 @@ int searchRepeatingLilEff(vector<int> arr)
 int searchRepeatingEff(vector<int> arr)
 {
     // we don't need bool array of arr.size(), as we will get our repeating element before reaching arr.size() length of array!
-    vector<bool> visited(arr.size(), false);
+    vector<bool> visited(arr.size() - 2, false);
 
     for (int i = 0; i < arr.size(); i++)
     {
