@@ -37,12 +37,42 @@ int lcsMemo(string s1, string s2, int m, int n)
     return memo[m][n];
 }
 
+// TC: m*n
+int lcsTab(string s1, string s2)
+{
+    int m = s1.length(), n = s2.length();
+    int dp[m + 1][n + 1];
+
+    for (int i = 0; i <= m; i++)
+    {
+        dp[i][0] = 0;
+    }
+
+    for (int j = 0; j <= n; j++)
+    {
+        dp[0][j] = 0;
+    }
+
+    for (int i = 1; i <= m; i++)
+    {
+        for (int j = 1; j <= n; j++)
+        {
+            if (s1[i - 1] == s2[j - 1])
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+            else
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+        }
+    }
+    return dp[m][n];
+}
+
 int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    cout << lcsNaive("AGNIBHA", "MESSI", 7, 5) << endl; // BH
-    cout << lcsMemo("AGNIBHA", "MESSI", 7, 5);          // BH
+    cout << lcsNaive("AGNIBHA", "MESSI", 7, 5) << endl;
+    cout << lcsMemo("AGNIBHA", "MESSI", 7, 5) << endl;
+    cout << lcsTab("AGNIBHA", "MESSI");
 
     return 0;
 }
