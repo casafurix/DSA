@@ -1,6 +1,13 @@
 {
     "configurations": [
         {
+            "type": "java",
+            "name": "Launch Test",
+            "request": "launch",
+            "mainClass": "Test",
+            "projectName": "DSA_8881883a"
+        },
+        {
             "name": "C/C++: cpp.exe build and debug active file",
             "type": "cppdbg",
             "request": "launch",
