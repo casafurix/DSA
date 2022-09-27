@@ -3,7 +3,8 @@
         "iostream": "cpp",
         "vector": "cpp",
         "utility": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "unordered_set": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch CountDistinct",
+            "request": "launch",
+            "mainClass": "CountDistinct",
+            "projectName": "DSA_8881883a"
+        },
+        {
+            "type": "java",
+            "name": "Launch HashMapInJava",
+            "request": "launch",
+            "mainClass": "HashMapInJava",
+            "projectName": "DSA_8881883a"
+        },
+        {
+            "type": "java",
             "name": "Launch Test",
             "request": "launch",
             "mainClass": "Test",
