@@ -4,7 +4,39 @@
 using namespace std;
 #define ll long long
 
-int getUnion(int a[], int b[], int m, int n)
+int getUnionNaive(int a[], int b[], int m, int n)
+{
+    int c[m + n];
+    for (int i = 0; i < m; i++)
+    {
+        c[i] = a[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        c[m + i] = b[i];
+    }
+
+    int res = 0;
+    for (int i = 0; i < m + n; i++)
+    {
+        // to avoid duplicates
+        bool flag = false;
+        for (int j = 0; j < i; j++)
+        {
+            if (c[i] == c[j])
+            {
+                flag = true;
+                break;
+            }
+        }
+        if (flag == false)
+            res++;
+    }
+
+    return res;
+}
+
+int getUnionEff(int a[], int b[], int m, int n)
 {
     unordered_set<int> s;
     int res = 0;
@@ -31,7 +63,8 @@ int main()
 
     int m = 3, n = 2;
     int a[] = {3, 3, 3}, b[] = {3, 3};
-    cout << getUnion(a, b, m, n);
+    cout << getUnionEff(a, b, m, n) << endl;
+    cout << getUnionNaive(a, b, m, n);
 
     return 0;
 }
