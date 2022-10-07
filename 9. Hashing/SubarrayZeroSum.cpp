@@ -11,7 +11,7 @@ bool is0SubarrayNaive(int arr[], int n)
         int currentSum = 0;
         for (int j = i; j < n; j++)
         {
-            currentSum += arr[i];
+            currentSum += arr[j];
             if (currentSum == 0)
                 return true;
         }
