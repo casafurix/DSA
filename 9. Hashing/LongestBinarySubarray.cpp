@@ -29,7 +29,7 @@ int longestBinarySubarrayEff(int arr[], int n)
     {
         if (arr[i] == 0)
             arr[i] = -1;
-        cout << arr[i] << " ";
+        // cout << arr[i] << " ";
     }
 
     unordered_map<int, int> m;
@@ -37,10 +37,10 @@ int longestBinarySubarrayEff(int arr[], int n)
     for (int i = 0; i < n; i++)
     {
         prefixSum += arr[i];
-        if (prefixSum == 0)
+        if (prefixSum == 0) // if initial elements of array form given sum (which is zero here), as we need to handle that case separately
             res = i + 1;
 
-        // we insert only if prefixSum doesn't already exist in the hashmap!
+        // we insert only if prefixSum doesn't already exist in the hashmap, we only want the 1st occurrence of the element to stay in the hashmap, to get the longest subarray with sum 0!
         if (m.find(prefixSum) == m.end())
             m.insert({prefixSum, i});
 
@@ -55,8 +55,14 @@ int main()
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     int arr[] = {1, 0, 1, 1, 1, 0, 0}, n = 7;
+    int arr2[] = {0, 0, 1, 1, 1, 1, 1, 0}, n2 = 8;
     cout << longestBinarySubarrayNaive(arr, n) << endl;
-    cout << longestBinarySubarrayEff(arr, n) << endl;
+    cout << longestBinarySubarrayEff(arr, n) << endl
+         << endl;
+
+    cout << longestBinarySubarrayNaive(arr2, n2) << endl;
+    cout << longestBinarySubarrayEff(arr2, n2) << endl
+         << endl;
 
     return 0;
 }

@@ -43,12 +43,15 @@ int main()
     cin.tie(0);
     int arr[] = {5, 8, -4, -4, 9, -2, -2}, n = 7, sum = 0;
     int arr2[] = {3, 1, 0, 1, 8, 2, 3, 6}, n2 = 8, sum2 = 5;
+    int arr3[] = {10, 2, -2, -20, 10}, n3 = 5, sum3 = -10;
     cout << longestSubarrayNaive(arr, n, sum) << endl;
-    cout << longestSubarrayNaive(arr2, n2, sum2) << endl
+    cout << longestSubarrayNaive(arr2, n2, sum2) << endl;
+    cout << longestSubarrayNaive(arr3, n3, sum3) << endl
          << endl;
 
     cout << longestSubarrayEff(arr, n, sum) << endl;
     cout << longestSubarrayEff(arr2, n2, sum2) << endl;
+    cout << longestSubarrayEff(arr3, n3, sum3) << endl;
 
     return 0;
 }
