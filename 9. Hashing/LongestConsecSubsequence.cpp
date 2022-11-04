@@ -13,7 +13,7 @@ int longestConsecSubsequenceNaive(int arr[], int n)
     {
         if (arr[i] == arr[i - 1] + 1)
             curr++;
-        else
+        else if (arr[i] != arr[i - 1]) // ignoring the same elements in array
         {
             res = max(res, curr);
             curr = 1;
